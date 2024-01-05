@@ -2,7 +2,8 @@
 
 ![PIWG Fullscreen Generation Sample](https://github.com/Bwright257/Procedural-Infinite-World-Generator/blob/main/Samples/PIWG-Full.png)
 
-//FIX// Description of PIWG
+## How it works
+The *Procedural Infinite World Generator*, or **PIWG** for short, is a program which simultaneously creates procedurally generated two dimensional landscapes and dynamically loads and unloads sections of the world. These sections, called *regions*, are uniform partitions of the world which each store an array of individual tiles. The algorithm used for the generation of the tiles within these regions is a derivation of *cellular automata*, which comes from the popular *Conway's Game of Life*. Loading and unloading of individual regions is determined by the location of the so-called *active region* and the *render distance* around that region. Regions that set to be loaded in are first populated by random noise and then conjoined with the other *to-be-loaded* regions in order for the cellular automaton to be most effective. Alongside this, the regions which fall out of the *render distance* are unloaded so that the program remains efficient.
 
 ## Options
 1. Download and run the latest release from [the releases page.]()
@@ -34,11 +35,15 @@ Go to the [BearLibTerminal Website.](http://foo.wyrd.name/en:bearlibterminal#dow
 - From the **Windows64/** folder, move ***BearLibTerminal.lib*** to **Procedural-Infinite-World-Generator-main/Demo/BLT/**
 - From the same folder, move ***BearLibTerminal.dll*** to **Procedural-Infinite-World-Generator-main/**
 
-//FIX// How to compile
+### *Compiling*
+1. Open the folder ***Procedural-Infinite-World-Generator-main*** in Visual Studio Code
+2. While in Visual Studio Code, press ***Ctrl + Shift + B*** to compile the program
 
 ## How to use the PIWG demo
 
-Navigate to where the program was installed, and simply run the ***PIWGdemo.exe*** file found in the root folder
+### Options
+- Navigate to where the program was installed, and simply run the ***PIWGdemo.exe*** file found in the root folder.
+- Open a terminal in the folder containing the executable and run ***./PIWGdemo.exe***
 
 ### *Controls*
 - Move your ***Mouse*** to load in regions around the cursor
@@ -52,5 +57,7 @@ Navigate to where the program was installed, and simply run the ***PIWGdemo.exe*
 ## The PIWG Presentation
 
 ![PIWG GIF](https://github.com/Bwright257/Procedural-Infinite-World-Generator/blob/main/Samples/IPWG-Demo.gif)
+##
 ![PIWG Small Sample 1](https://github.com/Bwright257/Procedural-Infinite-World-Generator/blob/main/Samples/PIWG-25SizeRegion1.png)
+##
 ![PIWG Small Sample 2](https://github.com/Bwright257/Procedural-Infinite-World-Generator/blob/main/Samples/PIWG-25SizeRegion2.png)
