@@ -7,7 +7,7 @@
 
 ## Options to use PIWG
 1. Download and run the latest release from [the releases page.]()
-   > [How to use the PIWG demo.](https://github.com/Bwright257/Procedural-Infinite-World-Generator/main/README.md#how-to-use)
+   > [How to use the PIWG demo.](https://github.com/Bwright257/Procedural-Infinite-World-Generator?tab=readme-ov-file#how-to-use)
 3. Install and compile the program on your own by following the steps below.
 
 ## Installation and Setup
