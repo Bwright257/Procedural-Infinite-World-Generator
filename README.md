@@ -19,7 +19,7 @@
 
 ### *Download*
 Clone or download a ZIP of the program from the [main branch.](https://github.com/Bwright257/Procedural-Infinite-World-Generator)
-> If you downloaded a ZIP, extract the PIWG-main folder
+> If you downloaded a ZIP, extract the Procedural-Infinite-World-Generator-main folder.
 
 ### *BearLibTerminal Setup*
 > BearLibTerminal is used for rendering the demo.
