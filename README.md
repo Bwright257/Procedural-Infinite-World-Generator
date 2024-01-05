@@ -41,7 +41,7 @@ Navigate to where the program was installed, and simply run the ***PIWGdemo.exe*
 ### *Controls*
 - ***W*** and the ***Up Arrow*** increase the render/load distance
 - ***S*** and the ***Down Arrow*** decrease the render/load distance
-- ***A*** and the ***Left Arrow*** decrease the size of each region
 - ***D*** and the ***Right Arrow*** increase the size of each region
+- ***A*** and the ***Left Arrow*** decrease the size of each region
 - ***X*** clears and regenerates the world
 - ***Escape*** closes the program
