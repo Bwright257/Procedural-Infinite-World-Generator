@@ -1,9 +1,8 @@
 # Procedural Infinite World Generator
 
-//FIX// Description of PIWG
+![PIWG Fullscreen Generation Sample](https://github.com/Bwright257/Procedural-Infinite-World-Generator/blob/main/Samples/PIWG-Full.png)
 
-### *Supported Platforms*
-- Windows
+//FIX// Description of PIWG
 
 ## Options
 1. Download and run the latest release from [the releases page.]()
@@ -12,6 +11,9 @@
 
 ## Installation and Setup
 
+### *Supported Platforms*
+- Windows
+
 ### *Requisites*
 - [Visual Studio Code](https://code.visualstudio.com/download)
 - [MinGW-64](https://www.mingw-w64.org/downloads/)
@@ -19,7 +21,7 @@
 
 ### *Download*
 Clone or download a ZIP of the program from the [main branch.](https://github.com/Bwright257/Procedural-Infinite-World-Generator)
-> If you downloaded a ZIP, extract the PIWG-main folder
+> If you downloaded a ZIP, extract the Procedural-Infinite-World-Generator-main folder.
 
 ### *BearLibTerminal Setup*
 > BearLibTerminal is used for rendering the demo.
@@ -29,8 +31,8 @@ Go to the [BearLibTerminal Website.](http://foo.wyrd.name/en:bearlibterminal#dow
 - Download the Windows archive
 - Extract the folder and locate the **Include/** and **Windows64/** folders
 - From the **Include/** folder, find the **C/** folder and move ***BearLibTerminal.h*** to **PIWG-main/Demo/BLT/**
-- From the **Windows64/** folder, move ***BearLibTerminal.lib*** to **PIWG-main/Demo/BLT/**
-- From the same folder, move ***BearLibTerminal.dll*** to **PIWG-main/**
+- From the **Windows64/** folder, move ***BearLibTerminal.lib*** to **Procedural-Infinite-World-Generator-main/Demo/BLT/**
+- From the same folder, move ***BearLibTerminal.dll*** to **Procedural-Infinite-World-Generator-main/**
 
 //FIX// How to compile
 
@@ -39,9 +41,13 @@ Go to the [BearLibTerminal Website.](http://foo.wyrd.name/en:bearlibterminal#dow
 Navigate to where the program was installed, and simply run the ***PIWGdemo.exe*** file found in the root folder
 
 ### *Controls*
+- Move your ***Mouse*** to load in regions around the cursor
 - ***W*** and the ***Up Arrow*** increase the render/load distance
 - ***S*** and the ***Down Arrow*** decrease the render/load distance
-- ***A*** and the ***Left Arrow*** decrease the size of each region
 - ***D*** and the ***Right Arrow*** increase the size of each region
+- ***A*** and the ***Left Arrow*** decrease the size of each region
 - ***X*** clears and regenerates the world
 - ***Escape*** closes the program
+
+## The PIWG Presentation
+
