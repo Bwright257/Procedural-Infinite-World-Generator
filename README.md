@@ -5,7 +5,7 @@
 ### *Supported Platforms*
 - Windows
 
-## Options to use PIWG
+## Options
 1. Download and run the latest release from [the releases page.]()
    > [How to use the PIWG demo.](https://github.com/Bwright257/Procedural-Infinite-World-Generator?tab=readme-ov-file#how-to-use)
 3. Install and compile the program on your own by following the steps below.
@@ -34,7 +34,7 @@ Go to the [BearLibTerminal Website.](http://foo.wyrd.name/en:bearlibterminal#dow
 
 //FIX// How to compile
 
-## How to Use
+## How to use the PIWG
 
 Navigate to where the program was installed, and simply run the ***PIWGdemo.exe*** file found in the root folder
 
