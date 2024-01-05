@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "Region.h"
 
+// Upon a region being created, it populates itself with a random noise of tiles.
 Region::Region(int size) : _isComplete(false){
     for (int i = 0; i < size; i++){
         for (int j = 0; j < size; j++){

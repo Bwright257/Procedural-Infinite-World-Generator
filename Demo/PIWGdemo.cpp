@@ -2,6 +2,7 @@
 #include "World.h"
 
 int main(int argc, char* argv[]){
+    // Sets up BearLibTerminal.
     terminal_open();
     terminal_set("window.title = Infinite Procedural World Generator");
     terminal_set("window.fullscreen = true");
@@ -13,13 +14,15 @@ int main(int argc, char* argv[]){
 
     World world;
     
+    // Loops until the user exits the program.
     bool running{true};
     while (running){
         world.playerLocation() = Location(terminal_state(TK_MOUSE_Y), terminal_state(TK_MOUSE_X));
         world.update(world.playerLocation());
 
         terminal_clear();
-    
+
+        // Prototype method for displaying the world.
         for (auto & regionLocation : world.renderedRegions()){
             for (auto & tile : world.regionAt(regionLocation)->tiles()){
                 Location worldLocation = world.localToWorld(RelativeLocation(regionLocation, tile.first));
@@ -34,20 +37,28 @@ int main(int argc, char* argv[]){
 
         terminal_refresh();
 
+        // Read user input;
         while (terminal_has_input()){
             int input = terminal_read();
 
             switch (input){
+                case TK_X:
+                    world.unloadRegions(world.renderedRegions());
+                    break;
+                case TK_W:
                 case TK_UP:
                     world.renderDistance()++;
                     break;
+                case TK_A:
                 case TK_LEFT:
                     world.regionSize()--;
                     world.unloadRegions(world.renderedRegions());
                     break;
+                case TK_S:
                 case TK_DOWN:
                     world.renderDistance()--;
                     break;
+                case TK_D:
                 case TK_RIGHT:
                     world.regionSize()++;
                     world.unloadRegions(world.renderedRegions());

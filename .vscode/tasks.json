@@ -13,7 +13,7 @@
                 "Demo\\*.cpp",
                 "PIWG\\*.cpp",
                 "-o",
-                "Demo\\PIWGdemo.exe",
+                "PIWGdemo.exe",
                 "-lBearLibTerminal"
             ],
             "options": {
