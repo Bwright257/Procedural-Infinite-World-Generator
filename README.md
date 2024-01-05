@@ -1,9 +1,8 @@
 # Procedural Infinite World Generator
 
-//FIX// Description of PIWG
+![PIWG Fullscreen Generation Sample](https://github.com/Bwright257/Procedural-Infinite-World-Generator/blob/main/Samples/PIWG-Full.png)
 
-### *Supported Platforms*
-- Windows
+//FIX// Description of PIWG
 
 ## Options
 1. Download and run the latest release from [the releases page.]()
@@ -11,6 +10,9 @@
 3. Install and compile the program on your own by following the steps below.
 
 ## Installation and Setup
+
+### *Supported Platforms*
+- Windows
 
 ### *Requisites*
 - [Visual Studio Code](https://code.visualstudio.com/download)
@@ -39,9 +41,13 @@ Go to the [BearLibTerminal Website.](http://foo.wyrd.name/en:bearlibterminal#dow
 Navigate to where the program was installed, and simply run the ***PIWGdemo.exe*** file found in the root folder
 
 ### *Controls*
+- Move your ***Mouse*** to load in regions around the cursor
 - ***W*** and the ***Up Arrow*** increase the render/load distance
 - ***S*** and the ***Down Arrow*** decrease the render/load distance
 - ***D*** and the ***Right Arrow*** increase the size of each region
 - ***A*** and the ***Left Arrow*** decrease the size of each region
 - ***X*** clears and regenerates the world
 - ***Escape*** closes the program
+
+## The PIWG Presentation
+
