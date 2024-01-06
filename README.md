@@ -3,7 +3,7 @@
 ![PIWG Fullscreen Generation Sample](https://github.com/Bwright257/Procedural-Infinite-World-Generator/blob/main/Samples/PIWG-Full.png)
 
 ## How it works
-The *Procedural Infinite World Generator*, or **PIWG** for short, is a program which simultaneously creates procedurally generated two dimensional landscapes and dynamically loads and unloads sections of the world. These sections, called *regions*, are uniform partitions of the world which each store an array of individual tiles. The algorithm used for the generation of the tiles within these regions is a derivation of *cellular automata*, which comes from the popular *Conway's Game of Life*. Loading and unloading of individual regions is determined by the location of the so-called *active region* and the *render distance* around that region. Regions that set to be loaded in are first populated by random noise and then conjoined with the other *to-be-loaded* regions in order for the cellular automaton to be most effective. Alongside this, the regions which fall out of the *render distance* are unloaded so that the program remains efficient.
+The *Procedural Infinite World Generator*, or **PIWG** for short, is a program which simultaneously creates procedurally generated two dimensional landscapes and dynamically loads and unloads sections of the world. These sections, called *regions*, are uniform partitions of the world which each store an array of individual tiles. The algorithm used for the generation of the tiles within these regions is a derivation of *cellular automata*, which comes from the popular *Conway's Game of Life*. Loading and unloading of individual regions is determined by the location of the so-called *active region* and the *load distance* around that region. Regions that set to be loaded in are first populated by random noise and then conjoined with the other *to-be-loaded* regions in order for the cellular automaton to be most effective. Alongside this, the regions which fall out of the *load distance* are unloaded so that the program remains efficient.
 
 ## Options
 1. Download and run the latest release (*PIWGv_._.zip*) from [the releases page.](https://github.com/Bwright257/Procedural-Infinite-World-Generator/releases)
@@ -47,11 +47,12 @@ Go to the [BearLibTerminal Website.](http://foo.wyrd.name/en:bearlibterminal#dow
 
 ### *Controls*
 - Move your ***Mouse*** to load in regions around the cursor
-- ***W*** and the ***Up Arrow*** increase the render/load distance
-- ***S*** and the ***Down Arrow*** decrease the render/load distance
-- ***D*** and the ***Right Arrow*** increase the size of each region
-- ***A*** and the ***Left Arrow*** decrease the size of each region
-- ***X*** clears and regenerates the world
+- ***W*** moves the world north
+- ***A*** moves the world west
+- ***S*** moves the world south
+- ***D*** moves the world east
+- The ***Up Arrow*** increases the load distance
+- The ***Down Arrow*** decreases the load distance
 - ***Escape*** closes the program
 
 ## The PIWG Presentation
