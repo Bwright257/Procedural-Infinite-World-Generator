@@ -1,28 +1,59 @@
+#include <filesystem>
+#include <fstream>
+#include <string>
 #include <cmath>
 #include "World.h"
 
-World::World(int seed, int regionSize, Location renderDistance) : _regionSize(regionSize), _renderDistance(renderDistance){
+World::World(int seed, int regionSize, Location loadDistance) : _regionSize(regionSize), _loadDistance(loadDistance){
+    std::filesystem::remove_all("Data/Regions/");
+    std::filesystem::create_directory("Data/Regions");
     srand(seed); // Seeds the random generation of the world.
     return;
 }
 
-void World::update(Location worldLocation){
-    // Sets the active region and gets all regions within render distance.
-    _activeRegion = worldToLocal(worldLocation).regionLocation();
-    std::set<Location> regionLocations = renderedRegions();
+World::~World(){
+    std::filesystem::remove_all("Data/Regions/");
+    return;
+}
 
-    // Unload the old regions, generate the new regions, and finally
-    // apply the cellular automata algorithm to smooth out each region.
-    unloadRegions(unrenderedRegions());
-    generateRegions(regionLocations);
-    smoothRegions(regionLocations);
+void World::update(Location worldLocation){
+    // Sets the active region based on the input location.
+    _activeRegion = worldToLocal(worldLocation).regionLocation();
+
+    // Save and then unload regions that fall out of the load distance.
+    std::set<Location> unloadLocations = regionsToUnload();
+    saveRegions(unloadLocations);
+    unloadRegions(unloadLocations);
+
+    std::set<Location> loadLocations = regionsToLoad();
+    std::set<Location> generatedLocations;
+
+    // If a region is saved it's loaded, otherwise it's generated.
+    for (auto & regionLocation : loadLocations){
+        if (isRegionSaved(regionLocation)){
+            loadRegion(regionLocation);
+        } else {
+            generateRegion(regionLocation);
+            generatedLocations.insert(regionLocation);
+        }
+    }
+    
+    // Smooth all regions that were just generated.
+    smoothRegions(generatedLocations);
+
+    return;
+}
+
+void World::generateRegion(Location regionLocation){
+    // Creates a region at a location.
+    _regions.emplace(regionLocation, Region(_regionSize));
     return;
 }
 
 void World::generateRegions(std::set<Location> regionLocations){
     // Creates a region at each location.
     for (auto & regionLocation : regionLocations){
-        _regions.emplace(regionLocation, Region(_regionSize));
+        generateRegion(regionLocation);
     }
 
     return;
@@ -30,7 +61,7 @@ void World::generateRegions(std::set<Location> regionLocations){
 
 void World::smoothRegions(std::set<Location> regionLocations){
     std::set<Location> smoothedRegions;
-    const int cycles{10}; // How many times the algorithm should loop, higher 
+    const int cycles{7}; // How many times the algorithm should loop, higher 
                           // values lead to a longer loading time but a smoother world.
     
     for (int c = 0; c < cycles; c++){
@@ -79,21 +110,94 @@ void World::smoothRegions(std::set<Location> regionLocations){
     return;
 }
 
-void World::unloadRegions(std::set<Location> regionLocations){
-    // Currently deletes each region, TODO: load each region into storage.
+void World::saveRegion(Location regionLocation){
+    std::ofstream outFile;
+    outFile.open(pathToRegion(regionLocation), std::ostream::trunc);
+
+    // Saves each tile as its location plus its icon.
+    // Format appears as "(row,column) icon ".
+    for (auto & tile : regionAt(regionLocation)->tiles()){
+        outFile << std::to_string(tile.first.row()) + " " + std::to_string(tile.first.column()) + " " + std::to_string(tile.second.type()) + " ";
+    }
+
+    outFile.close();
+    return;
+}
+
+void World::saveRegions(std::set<Location> regionLocations){
+    // Saves each region in the set.
     for (auto & regionLocation : regionLocations){
-        _regions.erase(regionLocation);
+        saveRegion(regionLocation);
     }
 
     return;
 }
 
-std::set<Location> World::renderedRegions(){
+void World::loadRegion(Location regionLocation){
+    std::string path = pathToRegion(regionLocation);
+
+    if (isRegionSaved(regionLocation)){
+        std::ifstream inFile;
+        inFile.open(path);
+
+        std::map<Location, Tile> tiles;
+        std::string row, column, type;
+
+        // Creates a new region with the tiles found in the associated region file.
+        while (inFile.good()){
+            inFile >> row;
+            inFile >> column;
+            inFile >> type;
+            tiles.emplace(Location(std::stoi(row), std::stoi(column)), Tile(static_cast<TileTypes>(std::stoi(type))));
+        }
+
+        _regions.emplace(regionLocation, Region(tiles));
+        inFile.close();
+    }
+
+    return;
+}
+
+void World::loadRegions(std::set<Location> regionLocations){
+    // Loads each region in the set.
+    for (auto & regionLocation : regionLocations){
+        loadRegion(regionLocation);
+    }
+
+    return;
+}
+
+void World::unloadRegion(Location regionLocation){
+    // Unloads a specific region.
+    _regions.erase(regionLocation);
+    return;
+}
+
+void World::unloadRegions(std::set<Location> regionLocations){
+    // Unloads each region in the set.
+    for (auto & regionLocation : regionLocations){
+        unloadRegion(regionLocation);
+    }
+
+    return;
+}
+
+bool World::isRegionSaved(Location regionLocation){
+    // Returns true if the path to a region file is valid.
+    return std::filesystem::exists(pathToRegion(regionLocation));
+}
+
+std::string World::pathToRegion(Location regionLocation){
+    // Gets the path to a region file, format is (row,column).
+    return "Data/Regions/(" + std::to_string(regionLocation.row()) + "," + std::to_string(regionLocation.column()) + ")";
+}
+
+std::set<Location> World::regionsToLoad(){
     std::set<Location> regionLocations;
     
-    // Finds the location of every region within render distance of the active region.
-    for (int i = _activeRegion.row() - _renderDistance.row(); i <= _activeRegion.row() + _renderDistance.row(); i++){
-        for (int j = _activeRegion.column() - _renderDistance.column(); j <= _activeRegion.column() + _renderDistance.column(); j++){
+    // Finds the location of every region within load distance of the active region.
+    for (int i = _activeRegion.row() - _loadDistance.row(); i <= _activeRegion.row() + _loadDistance.row(); i++){
+        for (int j = _activeRegion.column() - _loadDistance.column(); j <= _activeRegion.column() + _loadDistance.column(); j++){
             regionLocations.insert(Location(i, j));
         }
     }
@@ -101,7 +205,7 @@ std::set<Location> World::renderedRegions(){
     return regionLocations;
 }
 
-std::set<Location> World::unrenderedRegions(){
+std::set<Location> World::regionsToUnload(){
     std::set<Location> regionLocations;
 
     // Initialize the set with every loaded region.
@@ -109,12 +213,12 @@ std::set<Location> World::unrenderedRegions(){
         regionLocations.insert(region.first);
     }
 
-    // Subtract every region to be rendered.
-    for (auto & regionLocation : renderedRegions()){
+    // Subtract every region to be loaded.
+    for (auto & regionLocation : regionsToLoad()){
         regionLocations.erase(regionLocation);
     }
 
-    // Result is every region to be unrendered.
+    // Result is every region to be unloaded.
     return regionLocations;
 }
 
@@ -148,7 +252,7 @@ int World::numSurroundingWalls(Location worldLocation){
             }
         } else {
             // Any tile on the outside of the loaded regions is undetermined.
-            if (rand() % 100 > 66){
+            if (rand() % 2 == 0){
                 count++;
             }
         }
@@ -158,18 +262,19 @@ int World::numSurroundingWalls(Location worldLocation){
 }
 
 Location World::localToWorld(RelativeLocation relativeLocation){
+    // Converts a local location within a region to a world location.
     return relativeLocation.localLocation() + (relativeLocation.regionLocation() * _regionSize);
 }
 
 RelativeLocation World::worldToLocal(Location worldLocation){
+    // Converts a world location to a relative region and local location.
     Location regionLocation = Location(floor(double(worldLocation.row()) / double(_regionSize)), floor(double(worldLocation.column()) / double(_regionSize)));
     Location localLocation = (regionLocation * -_regionSize) + worldLocation;
-
     return RelativeLocation(regionLocation, localLocation);
 }
 
 Tile* World::tileAt(Location worldLocation){
-    return tileAt( worldToLocal(worldLocation));
+    return tileAt(worldToLocal(worldLocation));
 }
 
 Tile* World::tileAt(RelativeLocation relativeLocation){

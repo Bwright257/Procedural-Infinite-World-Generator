@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+
 #define directionalLocation(location, direction) Location::getDirectionalLocation(location, direction)
 
 // All cardinal and intermediate directions.

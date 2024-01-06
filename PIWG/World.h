@@ -3,22 +3,36 @@
 #include <set>
 #include "Region.h"
 
-// The game world itself, holds all regions and manages the dynamic loading system.
+// The game world itself, holds all regions and manages generation and the dynamic loading system.
 class World{
     public:
-        World(int seed = time(NULL), int regionSize = 10, Location renderDistance = Location(3, 3));
-        ~World(){}
+        World(int seed = time(NULL), int regionSize = 25, Location loadDistance = Location(1, 1));
+        ~World();
 
-        // Functions which apply cellular automata and dynamic loading.
+        // Updates the world around a location, typically a player location.
         void update(Location worldLocation);
+
+        // Functions which generate regions and apply procedural generation.
+        void generateRegion(Location regionLocation);
         void generateRegions(std::set<Location> regionLocations);
         void smoothRegions(std::set<Location> regionLocations);
+
+        // Functions which apply the dynamic loading system.
+        void saveRegion(Location regionLocation);
+        void saveRegions(std::set<Location> regionLocations);
+        void loadRegion(Location regionLocation);
+        void loadRegions(std::set<Location> regionLocations);
+        void unloadRegion(Location regionLocation);
         void unloadRegions(std::set<Location> regionLocations);
 
+        // Helper functions for the dynamic loading system.
+        bool isRegionSaved(Location regionLocation);
+        std::string pathToRegion(Location regionLocation);
+
         // Helper functions which determine which 
-        // regions are to be rendered or unrendered.
-        std::set<Location> renderedRegions();
-        std::set<Location> unrenderedRegions();
+        // regions are to be loaded or unloaded.
+        std::set<Location> regionsToLoad();
+        std::set<Location> regionsToUnload();
         
         // Utility functions which look at the tiles surrounding a 
         // particular location and count how many wall tiles are present.
@@ -44,12 +58,12 @@ class World{
         const int regionSize() const{return _regionSize;}
         Location& playerLocation(){return _playerLocation;}
         const Location& playerLocation() const{return _playerLocation;}
-        Location& renderDistance(){return _renderDistance;}
-        const Location& renderDistance() const{return _renderDistance;}
+        Location& loadDistance(){return _loadDistance;}
+        const Location& loadDistance() const{return _loadDistance;}
     private:
         int _regionSize;
         Location _playerLocation;
         Location _activeRegion;
-        Location _renderDistance;
+        Location _loadDistance;
         std::map<Location, Region> _regions;
 };

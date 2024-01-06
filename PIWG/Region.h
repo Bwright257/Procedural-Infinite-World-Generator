@@ -8,6 +8,7 @@
 class Region{
     public:
         Region(int size);
+        Region(std::map<Location, Tile> tiles);
         ~Region(){}
 
         // Utility functions for directly dealing with tiles.

@@ -13,24 +13,27 @@ int main(int argc, char* argv[]){
     terminal_refresh();
 
     World world;
+    Location offset;
     
     // Loops until the user exits the program.
     bool running{true};
     while (running){
-        world.playerLocation() = Location(terminal_state(TK_MOUSE_Y), terminal_state(TK_MOUSE_X));
+        world.playerLocation() = Location(terminal_state(TK_MOUSE_Y), terminal_state(TK_MOUSE_X)) - offset;
         world.update(world.playerLocation());
 
         terminal_clear();
 
         // Prototype method for displaying the world.
-        for (auto & regionLocation : world.renderedRegions()){
-            for (auto & tile : world.regionAt(regionLocation)->tiles()){
-                Location worldLocation = world.localToWorld(RelativeLocation(regionLocation, tile.first));
+        for (auto & regionLocation : world.regionsToLoad()){
+            if (world.regionExistsAt(regionLocation)){
+                for (auto & tile : world.regionAt(regionLocation)->tiles()){
+                    Location worldLocation = world.localToWorld(RelativeLocation(regionLocation, tile.first));
 
-                if (world.numAdjacentWalls(worldLocation) == 4 && world.tileAt(worldLocation)->type() == TILE_WALL){
-                    terminal_put(worldLocation.column(), worldLocation.row(), '.');
-                } else {
-                    terminal_put(worldLocation.column(), worldLocation.row(), world.tileAt(worldLocation)->icon());
+                    if (world.numAdjacentWalls(worldLocation) == 4 && world.tileAt(worldLocation)->type() == TILE_WALL){
+                        terminal_put(worldLocation.column() + offset.column(), worldLocation.row() + offset.row(), '.');
+                    } else {
+                        terminal_put(worldLocation.column() + offset.column(), worldLocation.row() + offset.row(), world.tileAt(worldLocation)->icon());
+                    }
                 }
             }
         }
@@ -42,26 +45,23 @@ int main(int argc, char* argv[]){
             int input = terminal_read();
 
             switch (input){
-                case TK_X:
-                    world.unloadRegions(world.renderedRegions());
-                    break;
                 case TK_W:
-                case TK_UP:
-                    world.renderDistance()++;
+                    offset.row() -= 1;
                     break;
                 case TK_A:
-                case TK_LEFT:
-                    world.regionSize()--;
-                    world.unloadRegions(world.renderedRegions());
+                    offset.column() -= 1;
                     break;
                 case TK_S:
-                case TK_DOWN:
-                    world.renderDistance()--;
+                    offset.row() += 1;
                     break;
                 case TK_D:
-                case TK_RIGHT:
-                    world.regionSize()++;
-                    world.unloadRegions(world.renderedRegions());
+                    offset.column() += 1;
+                    break;
+                case TK_UP:
+                    world.loadDistance()++;
+                    break;
+                case TK_DOWN:
+                    world.loadDistance()--;
                     break;
                 case TK_ESCAPE:
                     running = false;

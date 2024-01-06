@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "Region.h"
 
 // Upon a region being created, it populates itself with a random noise of tiles.
@@ -9,6 +8,11 @@ Region::Region(int size) : _isComplete(false){
         }
     }
 
+    return;
+}
+
+Region::Region(std::map<Location, Tile> tiles){
+    _tiles = tiles;
     return;
 }
 
