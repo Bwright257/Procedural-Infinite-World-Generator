@@ -14,7 +14,9 @@
                 "PIWG\\*.cpp",
                 "-o",
                 "PIWGdemo.exe",
-                "-lBearLibTerminal"
+                "-lBearLibTerminal",
+                "-static-libgcc",
+                "-static-libstdc++"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"

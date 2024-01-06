@@ -6,7 +6,7 @@
 // The game world itself, holds all regions and manages generation and the dynamic loading system.
 class World{
     public:
-        World(int seed = time(NULL), int regionSize = 25, Location loadDistance = Location(1, 1));
+        World(int seed = time(NULL), int regionSize = 15, Location loadDistance = Location(2, 2));
         ~World();
 
         // Updates the world around a location, typically a player location.
