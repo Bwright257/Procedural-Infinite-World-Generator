@@ -31,7 +31,7 @@ Clone or download a ZIP of the program from the [main branch.](https://github.co
 Go to the [BearLibTerminal Website.](http://foo.wyrd.name/en:bearlibterminal#download)
 - Download the Windows archive
 - Extract the folder and locate the **Include/** and **Windows64/** folders
-- From the **Include/** folder, find the **C/** folder and move ***BearLibTerminal.h*** to **PIWG-main/Demo/BLT/**
+- From the **Include/** folder, find the **C/** folder and move ***BearLibTerminal.h*** to **Procedural-Infinite-World-Generator-main/Demo/BLT/**
 - From the **Windows64/** folder, move ***BearLibTerminal.lib*** to **Procedural-Infinite-World-Generator-main/Demo/BLT/**
 - From the same folder, move ***BearLibTerminal.dll*** to **Procedural-Infinite-World-Generator-main/**
 
